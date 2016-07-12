@@ -11,12 +11,12 @@ Country codes are taken from the
 Signature, and ratification, acceptance or approval status is taken from the
 [United Nations Treaty Collection](https://treaties.un.org/pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVII-7-d&chapter=27&lang=en).
 
-Information on GHG emission, "the most up-to-date total and per cent of
+"[T]he most up-to-date total and per cent of
 greenhouse gas emissions communicated by Parties to the Convention in their
 national communications, greenhouse gas inventory reports, biennial reports or
-biennial update reports, as of 12 December 2015", are extracted from the (PDF
-file)[http://unfccc.int/files/paris_agreement/application/pdf/10e.pdf] on the
-(UNFCCC Paris Agreement - Status of Ratification)[http://unfccc.int/paris_agreement/items/9444.php] page.
+biennial update reports, as of 12 December 2015", are extracted from the [PDF
+file](http://unfccc.int/files/paris_agreement/application/pdf/10e.pdf) on the
+[UNFCCC Paris Agreement - Status of Ratification](http://unfccc.int/paris_agreement/items/9444.php) page.
 
 
 ## Preparation
