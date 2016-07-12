@@ -1,0 +1,57 @@
+{
+  "resources": [
+    {
+      "name": "paris-agreement-entry-into-force",
+      "path": "data/paris-agreement-entry-into-force.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "bytes": 8430,
+      "schema": {
+        "fields": [
+          {
+            "name": "country_code",
+            "type": "string",
+            "description": "Country Code (ISO3166-1-Alpha-3 codes and EU28)"
+          },
+          {
+            "name": "official_name_en",
+            "type": "string",
+            "description": "Country Name"
+          },
+          {
+            "name": "signature",
+            "type": "date",
+            "description": "Signature Date"
+          },
+          {
+            "name": "ratification_acceptance_approval",
+            "type": "number",
+            "description": "Ratification, Acceptance or Approval Date"
+          },
+          {
+            "name": "emissions",
+            "type": "number",
+            "description": "Emissions in GgCO₂-equiv. reported for the purposes of Article 21"
+          },
+          {
+            "name": "percentage",
+            "type": "number",
+            "description": "Share of emissions for the purposes of Article 21"
+          },
+          {
+            "name": "year",
+            "type": "date",
+            "format": "fmt: %Y",
+            "description": "Year for which emissions where reported"
+          }
+        ]
+      }
+    }
+  ],
+  "name": "paris-agreement-entry-into-force",
+  "title": "Entry Into Force of the Paris Climate Agreement",
+  "description": "Combined dataset of signature, and ratification, acceptance or approval status of the Paris Climate Agreement and the emissions shares used for entry into force.",
+  "dataDependencies": {
+    "country-codes": ""
+  }
+}
