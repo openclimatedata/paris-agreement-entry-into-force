@@ -34,7 +34,7 @@ make emissions-table
 ```
 
 The table  needs to be manually extracted into a file
-`archive/tabula-technology.csv` using [Tabula](http://tabula.technology/).
+`archive/tabula-table.csv` using [Tabula](http://tabula.technology/).
 
 To process the data the current signature and ratification status is downloaded
 before generating the combined CSV file:
