@@ -1,4 +1,14 @@
 {
+  "sources": [
+    {
+      "name": "United Nations Treaty Collection",
+      "web": "https://treaties.un.org/pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVII-7-d&chapter=27&lang=en"
+    },
+    {
+      "name": "United Nations Framework Convention on Climate Change",
+      "web": "http://unfccc.int/paris_agreement/items/9444.php"
+    }
+  ],
   "resources": [
     {
       "name": "paris-agreement-entry-into-force",
