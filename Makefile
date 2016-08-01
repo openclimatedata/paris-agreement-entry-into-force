@@ -6,7 +6,7 @@ emissions-table:
 	@echo See http://tabula.technology/
 
 treaty-collection:
-	wget -O archive/treaty-collection.html 'https://treaties.un.org/pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVII-7-d&chapter=27&lang=en'
+	wget -O archive/treaty-collection.html 'https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVII-7-d&chapter=27&clang=_en'
 
 data/paris-agreement-entry-into-force.csv: treaty-collection
 	python scripts/process.py
