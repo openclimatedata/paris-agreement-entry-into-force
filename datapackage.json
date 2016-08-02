@@ -35,7 +35,7 @@
           },
           {
             "name": "ratification_acceptance_approval",
-            "type": "number",
+            "type": "date",
             "description": "Ratification, Acceptance or Approval Date"
           },
           {
@@ -50,8 +50,8 @@
           },
           {
             "name": "year",
-            "type": "date",
-            "format": "fmt: %Y",
+            "type": "number",
+            "format": "int",
             "description": "Year for which emissions where reported"
           }
         ]
