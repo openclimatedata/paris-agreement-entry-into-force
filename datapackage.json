@@ -55,7 +55,8 @@
             "description": "Year for which emissions where reported"
           }
         ]
-      }
+      },
+    "primaryKey": "country_code"
     }
   ],
   "name": "paris-agreement-entry-into-force",
