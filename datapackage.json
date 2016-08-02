@@ -56,7 +56,7 @@
           }
         ]
       },
-    "primaryKey": "country_code"
+      "primaryKey": "country_code"
     }
   ],
   "name": "paris-agreement-entry-into-force",
