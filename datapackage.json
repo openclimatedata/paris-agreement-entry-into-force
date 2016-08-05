@@ -50,8 +50,7 @@
           },
           {
             "name": "year",
-            "type": "number",
-            "format": "int",
+            "type": "int",
             "description": "Year for which emissions where reported"
           }
         ],
