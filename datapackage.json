@@ -19,42 +19,42 @@
       "schema": {
         "fields": [
           {
-            "name": "country_code",
+            "name": "Country Code",
             "type": "string",
             "description": "Country Code (ISO3166-1-Alpha-3 codes and EU28)"
           },
           {
-            "name": "official_name_en",
+            "name": "Name",
             "type": "string",
             "description": "Country Name"
           },
           {
-            "name": "signature",
+            "name": "Signature",
             "type": "date",
             "description": "Signature Date"
           },
           {
-            "name": "ratification_acceptance_approval",
+            "name": "Ratification-Acceptance-Approval",
             "type": "date",
             "description": "Ratification, Acceptance or Approval Date"
           },
           {
-            "name": "emissions",
+            "name": "Emissions",
             "type": "number",
             "description": "Emissions in GgCO₂-equiv. reported for the purposes of Article 21"
           },
           {
-            "name": "percentage",
+            "name": "Percentage",
             "type": "number",
             "description": "Share of emissions for the purposes of Article 21"
           },
           {
-            "name": "year",
+            "name": "Year",
             "type": "int",
             "description": "Year for which emissions where reported"
           }
         ],
-        "primaryKey": "country_code"
+        "primaryKey": "Country Code"
       }
     }
   ],

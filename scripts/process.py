@@ -7,6 +7,7 @@ import os
 import pandas as pd
 
 from lxml import etree
+
 from StringIO import StringIO
 
 path = os.path.dirname(os.path.realpath(__file__))
@@ -60,9 +61,8 @@ status.index = status.index.str.replace("St\.", "Saint")
 status.index.name = "official_name_en"
 
 status = status.rename(columns={
-    "Signature": "signature",
     "Ratification, Acceptance(A), Approval(AA)":
-        "ratification_acceptance_approval"
+        "Ratification-Acceptance-Approval"
 })
 
 # Emissions and shares for each country.
@@ -129,27 +129,30 @@ emissions = emissions.rename(index=rename_eu_countries)
 emissions = emissions.drop("Total")
 
 emissions.index.name = "official_name_en"
-emissions.columns = [c.lower() for c in emissions.columns]
 
 # Listed in the footnotes of the table for the purpose of Article 21.
-emissions.set_value("European Union", "emissions", 4488404)
-emissions.set_value("European Union", "percentage", 12.10)
-emissions.set_value("European Union", "year", 2013)
+emissions.set_value("European Union", "Emissions", 4488404)
+emissions.set_value("European Union", "Percentage", 12.10)
+emissions.set_value("European Union", "Year", 2013)
 
 export = status.join(emissions, how="outer").join(country_codes)
 export = export.reset_index().set_index("country_code")
 export = export.sort_values(by="official_name_en")
 
+export.index.name = "Country Code"
+export = export.rename(columns={
+  "official_name_en": "Name"
+})
 print("\nData summary:\n")
 print("Emissions sum w/o EU28: {:d} GgCO₂-equiv.".format(int(
-    export.emissions.sum() - export.emissions.loc['EU28'].sum())))
+    export.Emissions.sum() - export.Emissions.loc['EU28'].sum())))
 print("Percentage sum: {}".format(
-    export.percentage.sum() - export.loc['EU28'].percentage))
-print("Count signatures: {}".format(export.signature.count()))
+    export.Percentage.sum() - export.loc['EU28'].Percentage))
+print("Count signatures: {}".format(export.Signature.count()))
 print("Count ratified: {}".format(
-    export.ratification_acceptance_approval.count()))
-ratified = export.ratification_acceptance_approval.notnull()
-percentage_sum = export[ratified].percentage.sum()
+    export["Ratification-Acceptance-Approval"].count()))
+ratified = export["Ratification-Acceptance-Approval"].notnull()
+percentage_sum = export[ratified].Percentage.sum()
 print("Sum of percentages with ratification: {}".format(percentage_sum))
 
 
@@ -160,6 +163,6 @@ def to_int(x):
         return str(int(x))
 
 
-export.emissions = export.emissions.apply(to_int)
-export.year = export.year.apply(to_int)
+export.Emissions = export.Emissions.apply(to_int)
+export.Year = export.Year.apply(to_int)
 export.to_csv(outfile, encoding="UTF-8")
