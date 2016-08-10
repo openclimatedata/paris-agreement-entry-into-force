@@ -50,7 +50,7 @@
           },
           {
             "name": "Year",
-            "type": "int",
+            "type": "integer",
             "description": "Year for which emissions where reported"
           }
         ],
