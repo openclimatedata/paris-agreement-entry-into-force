@@ -41,7 +41,8 @@
           {
             "name": "Emissions",
             "type": "number",
-            "description": "Emissions in GgCO₂-equiv. reported for the purposes of Article 21"
+            "description": "Emissions in GgCO₂-equiv. reported for the purposes of Article 21",
+            "unit": "GgCO₂-equiv."
           },
           {
             "name": "Percentage",
