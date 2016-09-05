@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 import os
+import re
 
 import pandas as pd
 
@@ -33,6 +34,7 @@ country_codes = country_codes.rename(
 
 # Add country code for European Union
 country_codes.loc["European Union"] = 'EU28'
+country_codes.loc["Czechia"] = "CZE"
 
 # Status in treaty collection.
 with open(treaty_collection, "rb") as f:
@@ -49,6 +51,7 @@ def dateparse(x):
     if pd.isnull(x):
         return x
     else:
+        x = re.sub(r"(16 AA?)", "16", x)
         return pd.datetime.strptime(x, '%d %b %Y').date()
 
 
@@ -127,6 +130,11 @@ assert(len(rename_eu_countries) == 27)  # UK already fixed above.
 emissions = emissions.rename(index=rename_eu_countries)
 
 emissions = emissions.drop("Total")
+
+# Rename Czechia
+emissions.index = emissions.index.str.replace(
+    "Czech Republic", "Czechia")
+
 
 emissions.index.name = "official_name_en"
 
