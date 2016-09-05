@@ -39,6 +39,11 @@
             "description": "Ratification, Acceptance or Approval Date"
           },
           {
+            "name": "Kind",
+            "type": "string",
+            "description": "Kind of deposited instruments of ratification, acceptance, approval or accession."
+          },
+          {
             "name": "Emissions",
             "type": "number",
             "description": "Emissions in GgCO₂-equiv. reported for the purposes of Article 21",

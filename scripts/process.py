@@ -47,7 +47,7 @@ selector = ('//table[@id="ctl00_ctl00_ContentPlaceHolder1' +
 table = etree.tostring(tree.xpath(selector)[0])
 
 
-def dateparse(x):
+def parse_date(x):
     if pd.isnull(x):
         return x
     else:
@@ -55,10 +55,24 @@ def dateparse(x):
         return pd.datetime.strptime(x, '%d %b %Y').date()
 
 
+def parse_kind(x):
+    if pd.isnull(x):
+        return x
+    else:
+        x = x.strip()
+        if x.endswith(" A"):
+            return "Acceptance"
+        elif x.endswith(" AA"):
+            return "Approval"
+        else:
+            return "Ratification"
+
+
 status = pd.read_html(table, index_col=0, header=0)[0]
 
-status.iloc[:, 0] = status.iloc[:, 0].apply(dateparse)
-status.iloc[:, 1] = status.iloc[:, 1].apply(dateparse)
+status.iloc[:, 0] = status.iloc[:, 0].apply(parse_date)
+status["Kind"] = status.iloc[:, 1].apply(parse_kind)
+status.iloc[:, 1] = status.iloc[:, 1].apply(parse_date)
 
 status.index = status.index.str.replace("St\.", "Saint")
 status.index.name = "official_name_en"
@@ -134,7 +148,6 @@ emissions = emissions.drop("Total")
 # Rename Czechia
 emissions.index = emissions.index.str.replace(
     "Czech Republic", "Czechia")
-
 
 emissions.index.name = "official_name_en"
 
