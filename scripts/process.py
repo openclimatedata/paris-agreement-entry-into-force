@@ -46,6 +46,8 @@ selector = ('//table[@id="ctl00_ctl00_ContentPlaceHolder1' +
             '_ContentPlaceHolderInnerPage_tblgrid"]')
 table = etree.tostring(tree.xpath(selector)[0])
 
+# Remove footnotes.
+table = re.sub(r"<sup>.+<\/sup>", "", table)
 
 def parse_date(x):
     if pd.isnull(x):
