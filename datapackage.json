@@ -60,7 +60,7 @@
             "description": "Year for which emissions where reported"
           }
         ],
-        "primaryKey": "Country Code"
+        "primaryKey": "Code"
       }
     }
   ],
