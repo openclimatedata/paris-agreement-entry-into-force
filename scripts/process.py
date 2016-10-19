@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import os
 import re
+import subprocess
 import urllib
 
 import pandas as pd
@@ -59,6 +60,7 @@ table = etree.tostring(tree.xpath(selector)[0])
 
 # Remove footnotes.
 table = re.sub(r"<sup>.+<\/sup>", "", table)
+
 
 def parse_date(x):
     if pd.isnull(x):
@@ -186,8 +188,10 @@ print("Count signatures: {}".format(export.Signature.count()))
 print("Count ratified: {}".format(
     export["Ratification-Acceptance-Approval"].count()))
 ratified = export["Ratification-Acceptance-Approval"].notnull()
-percentage_sum = export[ratified].Percentage.sum()
-print("Sum of percentages with ratification: {}".format(percentage_sum))
+percentage_sum = (export[ratified].Percentage.sum() -
+                  export.loc["EU28"].Percentage)
+print("Sum of percentages with ratification w/o EU28: {}".format(
+    percentage_sum))
 
 
 def to_int(x):
@@ -200,3 +204,5 @@ def to_int(x):
 export.Emissions = export.Emissions.apply(to_int)
 export.Year = export.Year.apply(to_int)
 export.to_csv(outfile, encoding="UTF-8")
+
+subprocess.call(["git", "diff", "data"])
