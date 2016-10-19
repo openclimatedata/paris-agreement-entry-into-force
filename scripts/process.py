@@ -175,7 +175,7 @@ export = status.join(emissions, how="outer").join(country_codes)
 export = export.reset_index().set_index("country_code")
 export = export.sort_values(by="official_name_en")
 
-export.index.name = "Country Code"
+export.index.name = "Code"
 export = export.rename(columns={
   "official_name_en": "Name"
 })

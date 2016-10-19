@@ -19,7 +19,7 @@
       "schema": {
         "fields": [
           {
-            "name": "Country Code",
+            "name": "Code",
             "type": "string",
             "description": "Country Code (ISO3166-1-Alpha-3 codes and EU28)"
           },
