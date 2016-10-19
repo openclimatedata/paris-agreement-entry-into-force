@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import os
 import re
+import urllib
 
 import pandas as pd
 
@@ -12,7 +13,17 @@ from lxml import etree
 from StringIO import StringIO
 
 path = os.path.dirname(os.path.realpath(__file__))
-treaty_collection = os.path.join(path, "../archive/treaty-collection.html")
+
+cache = os.path.join(path, '../cache')
+if not os.path.exists(cache):
+    os.makedirs(cache)
+
+treaty_collection = os.path.join(cache, 'treaty-collection.html')
+treaty_collection_url = ("https://treaties.un.org/Pages/ViewDetails.aspx?" +
+                         "src=TREATY&mtdsg_no=XXVII-7-d&chapter=27&clang=_en")
+print("Downloading", treaty_collection_url)
+urllib.urlretrieve(treaty_collection_url, treaty_collection)
+
 tabula_csv = os.path.join(path, "../archive/tabula-table.csv")
 outfile = os.path.join(path, "../data/paris-agreement-entry-into-force.csv")
 
