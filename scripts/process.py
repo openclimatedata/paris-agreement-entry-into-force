@@ -161,6 +161,8 @@ emissions = emissions.rename(index=rename_eu_countries)
 emissions = emissions.drop("Total")
 
 # Rename Czechia
+status.index = status.index.str.replace(
+    "Czech Republic", "Czechia")
 emissions.index = emissions.index.str.replace(
     "Czech Republic", "Czechia")
 
