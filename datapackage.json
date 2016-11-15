@@ -2,7 +2,7 @@
   "sources": [
     {
       "name": "United Nations Treaty Collection",
-      "web": "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVII-7-d&chapter=27&clang=_en"
+      "web": "https://treaties.un.org/Pages/showDetails.aspx?objid=0800000280458f37"
     },
     {
       "name": "United Nations Framework Convention on Climate Change",
@@ -42,6 +42,11 @@
             "name": "Kind",
             "type": "string",
             "description": "Kind of deposited instruments of ratification, acceptance, approval or accession."
+          },
+          {
+            "name": "Date-Of-Effect",
+            "type": "date",
+            "description": "Date of Effect."
           },
           {
             "name": "Emissions",
