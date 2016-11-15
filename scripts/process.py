@@ -3,32 +3,15 @@
 from __future__ import print_function
 
 import os
-import re
 import subprocess
-import urllib
 
 import pandas as pd
 
-from lxml import etree
-
-from StringIO import StringIO
-
 path = os.path.dirname(os.path.realpath(__file__))
-
-cache = os.path.join(path, '../cache')
-if not os.path.exists(cache):
-    os.makedirs(cache)
-
-treaty_collection = os.path.join(cache, 'treaty-collection.html')
-treaty_collection_url = ("https://treaties.un.org/Pages/ViewDetails.aspx?" +
-                         "src=TREATY&mtdsg_no=XXVII-7-d&chapter=27&clang=_en")
-print("Downloading", treaty_collection_url)
-urllib.urlretrieve(treaty_collection_url, treaty_collection)
-
+treaty_collection_url = ("https://treaties.un.org/Pages/" +
+                         "showDetails.aspx?objid=0800000280458f37")
 tabula_csv = os.path.join(path, "../archive/tabula-table.csv")
 outfile = os.path.join(path, "../data/paris-agreement-entry-into-force.csv")
-
-parser = etree.HTMLParser()
 
 # Country codes
 url = ("https://raw.githubusercontent.com/" +
@@ -44,63 +27,50 @@ country_codes = country_codes.rename(
     columns={"ISO3166-1-Alpha-3": "country_code"}
 )
 
+
 # Add country code for European Union
 country_codes.loc["European Union"] = 'EU28'
 country_codes.loc["Czechia"] = "CZE"
 
-# Status in treaty collection.
-with open(treaty_collection, "rb") as f:
-    html = f.read()
 
-tree = etree.parse(StringIO(html), parser)
+# Ratification and Signature status from the UN treaty collection.
+tables = pd.read_html(treaty_collection_url, encoding="UTF-8")
 
-selector = ('//table[@id="ctl00_ctl00_ContentPlaceHolder1' +
-            '_ContentPlaceHolderInnerPage_tblgrid"]')
-table = etree.tostring(tree.xpath(selector)[0])
+status = tables[5]
+status.columns = status.loc[0]
+status = status.reindex(status.index.drop(0))
 
-# Remove footnotes.
-table = re.sub(r"<sup>.+<\/sup>", "", table)
-
-
-def parse_date(x):
-    if pd.isnull(x):
-        return x
-    else:
-        x = re.sub(r"(16 AA?)", "16", x)
-        return pd.datetime.strptime(x, '%d %b %Y').date()
+status.index = status.Participant
+status = status.drop("Participant", axis=1)
+status.head()
 
 
-def parse_kind(x):
-    if pd.isnull(x):
-        return x
-    else:
-        x = x.strip()
-        if x.endswith(" A"):
-            return "Acceptance"
-        elif x.endswith(" AA"):
-            return "Approval"
-        else:
-            return "Ratification"
-
-
-status = pd.read_html(table, index_col=0, header=0)[0]
-
-status.iloc[:, 0] = status.iloc[:, 0].apply(parse_date)
-status["Kind"] = status.iloc[:, 1].apply(parse_kind)
-status.iloc[:, 1] = status.iloc[:, 1].apply(parse_date)
-
-status.index = status.index.str.replace("St\.", "Saint")
-status.index.name = "official_name_en"
-
-status = status.rename(columns={
-    "Ratification, Acceptance(A), Approval(AA)":
-        "Ratification-Acceptance-Approval"
+signature = status.loc[status.Action == "Signature"]
+signature = signature.rename(columns={
+    "Date of Notification/Deposit": "Signature"
 })
+signature = pd.DataFrame(signature.Signature)
+
+ratification = status.loc[status.Action != "Signature"]
+ratification = ratification.rename(columns={
+    "Action": "Kind",
+    "Date of Notification/Deposit": "Ratification-Acceptance-Approval",
+    "Date of Effect": "Date-Of-Effect"
+    })
+
+status = ratification.join(signature, how="outer")
+status.index.name = "official_name_en"
+status.index = status.index.str.replace("St\.", "Saint")
+
+status = status[["Signature", "Ratification-Acceptance-Approval", "Kind"]]
+status.Signature = pd.to_datetime(status.Signature, dayfirst=True)
+status["Ratification-Acceptance-Approval"] = pd.to_datetime(
+    status["Ratification-Acceptance-Approval"], dayfirst=True)
+
 
 # Emissions and shares for each country.
 # The tabula-table.csv file was generated using Tabula
 # (http://tabula.technology/).
-
 
 def make_int(field):
     try:
@@ -172,6 +142,7 @@ emissions.index.name = "official_name_en"
 emissions.set_value("European Union", "Emissions", 4488404)
 emissions.set_value("European Union", "Percentage", 12.10)
 emissions.set_value("European Union", "Year", 2013)
+
 
 export = status.join(emissions, how="outer").join(country_codes)
 export = export.reset_index().set_index("country_code")
