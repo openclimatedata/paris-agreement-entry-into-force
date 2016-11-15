@@ -1,5 +1,5 @@
-all:
-	python scripts/process.py
+all: venv
+	./venv/bin/python scripts/process.py
 	@git diff data
 
 emissions-table:
@@ -7,7 +7,13 @@ emissions-table:
 	@echo tabula-table.csv needs to be extracted manually using Tabula ...
 	@echo See http://tabula.technology/
 
+venv: scripts/requirements.txt
+	[ -d ./venv ] || python3 -m venv venv
+	./venv/bin/pip install --upgrade pip
+	./venv/bin/pip install -Ur scripts/requirements.txt
+	touch venv
+
 clean:
-	rm data/*.csv archive/table.pdf cache/*
+	rm data/*.csv archive/table.pdf venv
 
 .PHONY: clean emissions-table treaty-collection emissions-table

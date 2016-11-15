@@ -1,2 +1,4 @@
-pandas
-lxml
+beautifulsoup4==4.4.1
+html5lib==0.9999999
+pandas==0.19.1
+lxml==3.6.4

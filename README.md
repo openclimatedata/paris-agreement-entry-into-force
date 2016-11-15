@@ -22,13 +22,16 @@ file](http://unfccc.int/files/paris_agreement/application/pdf/10e.pdf) on the
 
 ## Preparation
 
-Install requirements:
+The `Makefile` requires Python3 and will automatically install its dependencies
+into a Virtualenv when run with
 
 ```shell
-pip install -r scripts/requirements.txt
+make
 ```
+This will also fetch the latest data and print a diff of any changed data.
 
-Get PDF with emissions data:
+
+To get the PDF with emissions data (already included in the Data Package):
 
 ```shell
 make emissions-table
@@ -36,15 +39,6 @@ make emissions-table
 
 The table  needs to be manually extracted into a file
 `archive/tabula-table.csv` using [Tabula](http://tabula.technology/).
-
-To process the data the current signature and ratification status is downloaded
-before generating the combined CSV file:
-
-```shell
-make
-```
-
-To update the dataset only the last step needs to be run.
 
 
 ## Notes
