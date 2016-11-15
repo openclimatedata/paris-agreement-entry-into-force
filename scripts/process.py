@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 import os
+from datetime import datetime
 
 import pandas as pd
 
@@ -61,11 +62,17 @@ status = ratification.join(signature, how="outer")
 status.index.name = "official_name_en"
 status.index = status.index.str.replace("St\.", "Saint")
 
-status = status[["Signature", "Ratification-Acceptance-Approval", "Kind"]]
+status = status[["Signature", "Ratification-Acceptance-Approval", "Kind", "Date-Of-Effect"]]
 status.Signature = pd.to_datetime(status.Signature, dayfirst=True)
 status["Ratification-Acceptance-Approval"] = pd.to_datetime(
     status["Ratification-Acceptance-Approval"], dayfirst=True)
+status["Date-Of-Effect"] = pd.to_datetime(
+    status["Date-Of-Effect"], dayfirst=True)
 
+# Add Entry Into Force date for first ratification parties.
+status.loc[status["Ratification-Acceptance-Approval"].notnull() &
+           status["Date-Of-Effect"].isnull(),
+           "Date-Of-Effect"] = datetime(2016, 11, 4)
 
 # Emissions and shares for each country.
 # The tabula-table.csv file was generated using Tabula
