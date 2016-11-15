@@ -3,7 +3,6 @@
 from __future__ import print_function
 
 import os
-import subprocess
 
 import pandas as pd
 
@@ -177,5 +176,3 @@ def to_int(x):
 export.Emissions = export.Emissions.apply(to_int)
 export.Year = export.Year.apply(to_int)
 export.to_csv(outfile, encoding="UTF-8")
-
-subprocess.call(["git", "diff", "data"])

@@ -1,5 +1,6 @@
 all:
 	python scripts/process.py
+	@git diff data
 
 emissions-table:
 	wget -O archive/table.pdf "http://unfccc.int/files/paris_agreement/application/pdf/10e.pdf"
