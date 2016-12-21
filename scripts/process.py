@@ -36,12 +36,14 @@ country_codes.loc["Czechia"] = "CZE"
 # Ratification and Signature status from the UN treaty collection.
 tables = pd.read_html(treaty_collection_url, encoding="UTF-8")
 
-status = tables[5]
+status = tables[6]
 status.columns = status.loc[0]
 status = status.reindex(status.index.drop(0))
 
 status.index = status.Participant
 status = status.drop("Participant", axis=1)
+status = status[status.Action.isin(
+    ["Ratification", "Acceptance", "Approval", "Signature"])]
 status.head()
 
 
