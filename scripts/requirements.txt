@@ -1,4 +1,4 @@
-beautifulsoup4==4.4.1
-html5lib==0.9999999
-pandas==0.19.1
-lxml==3.6.4
+beautifulsoup4>=4.5
+html5lib==0.999999999
+pandas>=0.19
+lxml>=3.7
