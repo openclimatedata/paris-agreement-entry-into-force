@@ -3,6 +3,8 @@
 from __future__ import print_function
 
 import os
+import sys
+
 from datetime import datetime
 
 import pandas as pd
@@ -34,7 +36,13 @@ country_codes.loc["Czechia"] = "CZE"
 
 
 # Ratification and Signature status from the UN treaty collection.
-tables = pd.read_html(treaty_collection_url, encoding="UTF-8")
+try:
+    tables = pd.read_html(treaty_collection_url, encoding="UTF-8")
+except ValueError as e:
+    print(e)
+    print("Maybe https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY"
+          "&mtdsg_no=XXVII-7-d&chapter=27&clang=_en is down?")
+    sys.exit()
 
 status = tables[6]
 status.columns = status.loc[0]
