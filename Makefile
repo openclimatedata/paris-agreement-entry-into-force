@@ -1,4 +1,5 @@
 all: venv
+	git pull
 	./venv/bin/python scripts/process.py
 	@git diff data
 
