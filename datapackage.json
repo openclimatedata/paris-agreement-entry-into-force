@@ -15,7 +15,6 @@
       "path": "data/paris-agreement-entry-into-force.csv",
       "format": "csv",
       "mediatype": "text/csv",
-      "bytes": 8430,
       "schema": {
         "fields": [
           {
