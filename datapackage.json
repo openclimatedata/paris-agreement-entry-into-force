@@ -20,7 +20,7 @@
           {
             "name": "Code",
             "type": "string",
-            "description": "Country Code (ISO3166-1-Alpha-3 codes and EU28)"
+            "description": "Country Code (ISO3166-1-Alpha-3 codes and EUU for European Union)"
           },
           {
             "name": "Name",
@@ -30,22 +30,22 @@
           {
             "name": "Signature",
             "type": "date",
-            "description": "Signature Date"
+            "description": "Date of Signature"
           },
           {
             "name": "Ratification-Acceptance-Approval",
             "type": "date",
-            "description": "Ratification, Acceptance or Approval Date"
+            "description": "Date of Ratification, Acceptance, or Approval"
           },
           {
             "name": "Kind",
             "type": "string",
-            "description": "Kind of deposited instruments of ratification, acceptance, approval or accession."
+            "description": "Kind of deposited instruments of ratification, acceptance, approval or accession"
           },
           {
             "name": "Date-Of-Effect",
             "type": "date",
-            "description": "Date of Effect."
+            "description": "Date of Effect"
           },
           {
             "name": "Emissions",
@@ -70,5 +70,5 @@
   ],
   "name": "paris-agreement-entry-into-force",
   "title": "Entry Into Force of the Paris Climate Agreement",
-  "description": "Combined dataset of signature, and ratification, acceptance or approval status of the Paris Climate Agreement and the emissions shares used for entry into force."
+  "description": "Combined dataset of signature, ratification, acceptance, or approval status of the Paris Climate Agreement and the emissions shares used for entry into force."
 }

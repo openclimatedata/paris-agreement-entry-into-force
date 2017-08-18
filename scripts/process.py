@@ -1,10 +1,9 @@
 # encoding: UTF-8
 
-from __future__ import print_function
-
 import os
 import sys
 
+from countrynames import to_alpha_3
 from datetime import datetime
 
 import pandas as pd
@@ -14,26 +13,6 @@ treaty_collection_url = ("https://treaties.un.org/Pages/" +
                          "showDetails.aspx?objid=0800000280458f37")
 tabula_csv = os.path.join(path, "../archive/tabula-table.csv")
 outfile = os.path.join(path, "../data/paris-agreement-entry-into-force.csv")
-
-# Country codes
-url = ("https://raw.githubusercontent.com/" +
-       "datasets/country-codes/master/data/country-codes.csv")
-
-country_codes = pd.read_csv(
-    url,
-    index_col="official_name_en",
-    usecols=["ISO3166-1-Alpha-3", "official_name_en"],
-    encoding="UTF-8"
-)
-country_codes = country_codes.rename(
-    columns={"ISO3166-1-Alpha-3": "country_code"}
-)
-
-
-# Add country code for European Union
-country_codes.loc["European Union"] = 'EU28'
-country_codes.loc["Czechia"] = "CZE"
-
 
 # Ratification and Signature status from the UN treaty collection.
 try:
@@ -48,12 +27,12 @@ status = tables[6]
 status.columns = status.loc[0]
 status = status.reindex(status.index.drop(0))
 
-status.index = status.Participant
-status = status.drop("Participant", axis=1)
+status.index = status.Participant.apply(to_alpha_3, fuzzy=True)
+status.index.name = "Code"
+
+names = status.Participant.drop_duplicates()
 status = status[status.Action.isin(
     ["Ratification", "Acceptance", "Approval", "Signature"])]
-status.head()
-
 
 signature = status.loc[status.Action == "Signature"]
 signature = signature.rename(columns={
@@ -69,10 +48,10 @@ ratification = ratification.rename(columns={
     })
 
 status = ratification.join(signature, how="outer")
-status.index.name = "official_name_en"
-status.index = status.index.str.replace("St\.", "Saint")
+status["Name"] = names
 
-status = status[["Signature", "Ratification-Acceptance-Approval", "Kind", "Date-Of-Effect"]]
+status = status[["Name", "Signature", "Ratification-Acceptance-Approval",
+                 "Kind", "Date-Of-Effect"]]
 status.Signature = pd.to_datetime(status.Signature, dayfirst=True)
 status["Ratification-Acceptance-Approval"] = pd.to_datetime(
     status["Ratification-Acceptance-Approval"], dayfirst=True)
@@ -83,6 +62,7 @@ status["Date-Of-Effect"] = pd.to_datetime(
 status.loc[status["Ratification-Acceptance-Approval"].notnull() &
            status["Date-Of-Effect"].isnull(),
            "Date-Of-Effect"] = datetime(2016, 11, 4)
+
 
 # Emissions and shares for each country.
 # The tabula-table.csv file was generated using Tabula
@@ -109,7 +89,6 @@ emissions = pd.read_csv(
 )
 emissions.columns = [c.strip() for c in emissions.columns]
 emissions.index = [c.strip() for c in emissions.index]
-emissions.index.names = ['Party']
 emissions = emissions.rename(columns={"equivalent)": "Emissions"})
 
 # Fix country names that were printed on two lines.
@@ -137,9 +116,6 @@ emissions = emissions.drop([
 # Drop empty remaining Congo column of "Democratic Republic of the Congo".
 emissions = emissions[~emissions.index.duplicated()]
 
-emissions.index = emissions.index.str.replace(
-    "Cote d'Ivoire", u"Côte d'Ivoire")
-
 rename_eu_countries = {i: i[:-1] for i in emissions.index if i.endswith("*")}
 assert(len(rename_eu_countries) == 27)  # UK already fixed above.
 emissions = emissions.rename(index=rename_eu_countries)
@@ -147,39 +123,41 @@ emissions = emissions.rename(index=rename_eu_countries)
 emissions = emissions.drop("Total")
 
 # Rename Czechia
-status.index = status.index.str.replace(
-    "Czech Republic", "Czechia")
-emissions.index = emissions.index.str.replace(
+status.Name = status.Name.replace(
     "Czech Republic", "Czechia")
 
-emissions.index.name = "official_name_en"
 
 # Listed in the footnotes of the table for the purpose of Article 21.
 emissions.set_value("European Union", "Emissions", 4488404)
 emissions.set_value("European Union", "Percentage", 12.10)
 emissions.set_value("European Union", "Year", 2013)
 
+emissions["Name"] = emissions.index
+emissions.index = [to_alpha_3(item, fuzzy=True) for item in emissions.Name]
+emissions.index.name = "Code"
 
-export = status.join(emissions, how="outer").join(country_codes)
-export = export.reset_index().set_index("country_code")
-export = export.sort_values(by="official_name_en")
+# Names of parties not yet having signed.
+missing = pd.DataFrame(emissions.Name[~emissions.index.isin(status.index)])
+status = status.append(missing)
 
-export.index.name = "Code"
-export = export.rename(columns={
-  "official_name_en": "Name"
-})
+
+export = status.join(emissions.iloc[:, :3], how="outer")
+export = export[["Name", "Signature", "Ratification-Acceptance-Approval",
+                 "Kind", "Date-Of-Effect", "Emissions", "Percentage", "Year"]]
+export = export.sort_values(by="Name")
+
 print("\nData summary:\n")
 print("Emissions sum w/o EU28: {:d} GgCO₂-equiv.".format(int(
-    export.Emissions.sum() - export.Emissions.loc['EU28'].sum())))
+    export.Emissions.sum() - export.Emissions.loc['EUU'].sum())))
 print("Percentage sum: {}".format(
-    export.Percentage.sum() - export.loc['EU28'].Percentage))
+    export.Percentage.sum() - export.loc['EUU'].Percentage))
 print("Count signatures: {}".format(export.Signature.count()))
 print("Count ratified: {}".format(
     export["Ratification-Acceptance-Approval"].count()))
 ratified = export["Ratification-Acceptance-Approval"].notnull()
 percentage_sum = (export[ratified].Percentage.sum() -
-                  export.loc["EU28"].Percentage)
-print("Sum of percentages with ratification w/o EU28: {}".format(
+                  export.loc["EUU"].Percentage)
+print("Sum of percentages with ratification w/o EU: {}".format(
     percentage_sum))
 
 
