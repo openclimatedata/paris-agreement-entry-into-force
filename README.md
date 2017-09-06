@@ -5,12 +5,8 @@ into force for the purposes of Article 21 of the agreement.
 
 ## Data
 
-Country codes are taken from the
-[Country Codes data package](https://github.com/datasets/country-codes).
-
 Signature, and ratification, acceptance or approval status is taken from the
 [United Nations Treaty Collection](https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVII-7-d&chapter=27&clang=_en) by parsing the [full record page](https://treaties.un.org/Pages/showDetails.aspx?objid=0800000280458f37).
-
 
 "[T]he most up-to-date total and per cent of
 greenhouse gas emissions communicated by Parties to the Convention in their
