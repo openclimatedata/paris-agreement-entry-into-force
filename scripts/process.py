@@ -1,18 +1,19 @@
-# encoding: UTF-8
-
-import os
 import sys
-
-from countrynames import to_alpha_3
-from datetime import datetime
 
 import pandas as pd
 
-path = os.path.dirname(os.path.realpath(__file__))
+from countrynames import to_alpha_3
+from datetime import datetime
+from goodtables import validate
+from pathlib import Path
+from pprint import pprint
+
+root = Path(__file__).parents[1]
+
 treaty_collection_url = ("https://treaties.un.org/Pages/" +
                          "showDetails.aspx?objid=0800000280458f37")
-tabula_csv = os.path.join(path, "../archive/tabula-table.csv")
-outfile = os.path.join(path, "../data/paris-agreement-entry-into-force.csv")
+tabula_csv = root / "archive/tabula-table.csv"
+outfile = root / "data/paris-agreement-entry-into-force.csv"
 
 # Ratification and Signature status from the UN treaty collection.
 try:
@@ -171,3 +172,7 @@ def to_int(x):
 export.Emissions = export.Emissions.apply(to_int)
 export.Year = export.Year.apply(to_int)
 export.to_csv(outfile, encoding="UTF-8")
+
+report = validate(str(root / "datapackage.json"))
+if report["error-count"] > 0:
+    pprint(report)
