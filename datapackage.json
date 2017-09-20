@@ -1,11 +1,11 @@
 {
   "sources": [
     {
-      "name": "United Nations Treaty Collection",
+      "title": "United Nations Treaty Collection",
       "web": "https://treaties.un.org/Pages/showDetails.aspx?objid=0800000280458f37"
     },
     {
-      "name": "United Nations Framework Convention on Climate Change",
+      "title": "United Nations Framework Convention on Climate Change",
       "web": "http://unfccc.int/paris_agreement/items/9444.php"
     }
   ],
