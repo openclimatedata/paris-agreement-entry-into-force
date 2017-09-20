@@ -138,7 +138,7 @@ d3.json("datapackage.json", function(metadata) {
   })
   metadata.sources.forEach(function(source) {
     d3.select("#sources").append("li").html(
-      "<a href='" + source["web"] + "'>" + source["name"]) + "</a>"
+      "<a href='" + source["web"] + "'>" + source["title"]) + "</a>"
   })
   d3.select("#description").html(metadata.description)
 })
