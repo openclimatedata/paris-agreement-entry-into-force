@@ -5,8 +5,9 @@ import pandas as pd
 from countrynames import to_alpha_3
 from datetime import datetime
 from goodtables import validate
+from goodtables.cli import _print_report
 from pathlib import Path
-from pprint import pprint
+
 
 root = Path(__file__).parents[1]
 
@@ -175,4 +176,4 @@ export.to_csv(outfile, encoding="UTF-8")
 
 report = validate(str(root / "datapackage.json"))
 if report["error-count"] > 0:
-    pprint(report)
+    _print_report(report)
