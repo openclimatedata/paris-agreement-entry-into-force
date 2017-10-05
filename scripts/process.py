@@ -174,6 +174,6 @@ export.Emissions = export.Emissions.apply(to_int)
 export.Year = export.Year.apply(to_int)
 export.to_csv(outfile, encoding="UTF-8")
 
-report = validate(str(root / "datapackage.json"))
+report = validate(root / "datapackage.json")
 if report["error-count"] > 0:
     _print_report(report)
