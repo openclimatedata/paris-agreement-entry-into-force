@@ -18,47 +18,58 @@ table.dataTable tr.odd {
 a {
   color: #ff6300;
 }
+hr {
+  border: none;
+  height: 4px;
+  background-color: #333;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 </style>
 </head>
 
 <body class="mb5 f6 sans-serif">
 
-<div class="ph4 pt3 pb2">
-<h1>Paris Agreement Entry Into Force Status</h1>
-<p class="measure-wide" id="description"></p>
+<div class="ph4 mw9 pt3 pb2">
+<h1>Paris Agreement<br> Entry Into Force</h1>
+<hr>
+<p id="description" class="measure-wide"></p>
 </div>
 
-<div class="bt b--black-20">
-<div class="ph4 pb4">
+<div class="mw9 ph3-ns">
+<div class="cf ph2-ns">
+<div class="fl w-100 w-50-ns pa2">
+<h2>Data Package & Download</h2>
+<hr>
+<p>
+Data: <a href="data/paris-agreement-entry-into-force.csv">paris-agreement-entry-into-force.csv</a>
+</p>
+<p>
+Metadata: <a href="datapackage.json">datapackage.json</a>
+</p>
+
+  <p>
+Repository: <a href="https://github.com/openclimatedata/paris-agreement-entry-into-force">https://github.com/openclimatedata/paris-agreement-entry-into-force</a>
+</p>
+<p>
+Complete Data Package as a zip file: <a href="https://github.com/openclimatedata/paris-agreement-entry-into-force/archive/master.zip">https://github.com/openclimatedata/paris-agreement-entry-into-force/archive/master.zip</a>
+</p>
+
+
+</div>
+<div class="fl w-100 w-50-ns pa2">
 <h2>Sources</h2>
-<div id="sources">
+<hr>
+<ul class="list pl0" id="sources">
+</ul>
+
 </div>
-</div>
-
-
-<div class="b--black-20 bt bb">
-<div class="ph4">
-  <h2>Data Package & Download</h2>
-
-  <p>
-  Data: <a href="data/paris-agreement-entry-into-force.csv">paris-agreement-entry-into-force.csv</a>
-  </p>
-  <p>
-  Metadata: <a href="datapackage.json">datapackage.json</a>
-  </p>
-
-    <p>
-  Repository: <a href="https://github.com/openclimatedata/paris-agreement-entry-into-force">https://github.com/openclimatedata/paris-agreement-entry-into-force</a>
-  </p>
-  <p>
-  Complete Data Package as a zip file: <a href="https://github.com/openclimatedata/paris-agreement-entry-into-force/archive/master.zip">https://github.com/openclimatedata/paris-agreement-entry-into-force/archive/master.zip</a>
-  </p>
-
 </div>
 </div>
 
 <div class="ph4 pt2 mw9">
 <h2>Data</h2>
+<hr>
 <table id="entry-into-force" width="100%" cellspacing="0">
 <thead>
   <tr>
@@ -78,6 +89,7 @@ a {
 
 <div class="ph4 mw8">
 <h2>Columns</h2>
+<hr>
 <table id="metadata" width="100%" cellspacing="0">
 <thead>
   <tr>

@@ -70,6 +70,6 @@
   ],
   "name": "paris-agreement-entry-into-force",
   "title": "Entry Into Force of the Paris Climate Agreement",
-  "description": "Combined dataset of signature, ratification, acceptance, or approval status of the Paris Climate Agreement and the emissions shares used for entry into force.",
+  "description": "Combined dataset of signature, ratification, acceptance, or approval status of the Paris Climate Agreement, and the emissions shares used for entry into force.",
   "repository": "https://github.com/openclimatedata/paris-agreement-entry-into-force"
 }
