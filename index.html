@@ -28,46 +28,52 @@ hr {
 </style>
 </head>
 
-<body class="mb5 f6 sans-serif">
+<body class="mb5 sans-serif">
 
-<div class="ph4 mw9 pt3 pb2">
-<h1>Paris Agreement<br> Entry Into Force</h1>
-<hr>
-<p id="description" class="measure-wide"></p>
+<div class="ph4 mw9 pt3">
+<h1 class="f1">Paris Agreement</h1>
 </div>
 
 <div class="mw9 ph3-ns">
 <div class="cf ph2-ns">
 <div class="fl w-100 w-50-ns pa2">
-<h2>Data Package & Download</h2>
+<p id="description" class="measure-wide"></p>
+</div>
+<div class="fl w-100 w-50-ns pa2 pt3">
+<a class="f6 link dim ba ph3 pv2 mb2 dib black" href="https://github.com/openclimatedata/paris-agreement-entry-into-force"><svg class="dib h2 w2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C3.58 0 0 3.582 0 8c0 3.535 2.292 6.533 5.47 7.59.4.075.547-.172.547-.385 0-.19-.007-.693-.01-1.36-2.226.483-2.695-1.073-2.695-1.073-.364-.924-.89-1.17-.89-1.17-.725-.496.056-.486.056-.486.803.056 1.225.824 1.225.824.714 1.223 1.873.87 2.33.665.072-.517.278-.87.507-1.07-1.777-.2-3.644-.888-3.644-3.953 0-.873.31-1.587.823-2.147-.083-.202-.358-1.015.077-2.117 0 0 .672-.215 2.2.82.638-.178 1.323-.266 2.003-.27.68.004 1.364.092 2.003.27 1.527-1.035 2.198-.82 2.198-.82.437 1.102.163 1.915.08 2.117.513.56.823 1.274.823 2.147 0 3.073-1.87 3.75-3.653 3.947.287.246.543.735.543 1.48 0 1.07-.01 1.933-.01 2.195 0 .215.144.463.55.385C13.71 14.53 16 11.534 16 8c0-4.418-3.582-8-8-8"/></svg> GitHub Repository</a>
+</div>
+</div>
+</div>
+
+<div class="mw9 ph3-ns">
+<div class="cf ph2-ns">
+<div class="fl w-100 w-50-ns pa2">
+<h2>Entry Into Force <span class="gray">4 November 2016</span></h2>
 <hr>
-<p>
-Data: <a href="data/paris-agreement-entry-into-force.csv">paris-agreement-entry-into-force.csv</a>
-</p>
-<p>
-Metadata: <a href="datapackage.json">datapackage.json</a>
-</p>
-
-  <p>
-Repository: <a href="https://github.com/openclimatedata/paris-agreement-entry-into-force">https://github.com/openclimatedata/paris-agreement-entry-into-force</a>
-</p>
-<p>
-Complete Data Package as a zip file: <a href="https://github.com/openclimatedata/paris-agreement-entry-into-force/archive/master.zip">https://github.com/openclimatedata/paris-agreement-entry-into-force/archive/master.zip</a>
-</p>
-
-
 </div>
 <div class="fl w-100 w-50-ns pa2">
-<h2>Sources</h2>
+<h2><span id="ratified"></span> parties ratified</h2>
 <hr>
+</div>
+</div>
+</div>
+
+<div class="mw9 ph3-ns">
+<div class="cf ph2-ns">
+<div class="fl w-100 w-50-ns pa2">
+<a class="f6 link dim ba ph3 pv2 mb2 dib black" href="data/paris-agreement-entry-into-force.csv">Download Data</a>
+<a class="f6 link dim ba ph3 pv2 mb2 dib black" href="datapackage.json">Download Metadata</a>
+<a class="f6 link dim ba ph3 pv2 mb2 dib black" href="https://github.com/openclimatedata/paris-agreement-entry-into-force/archive/master.zip">Download Data Package</a>
+</div>
+<div class="fl w-100 w-50-ns pa2">
+<dt>Sources</dt>
 <ul class="list pl0" id="sources">
 </ul>
-
 </div>
 </div>
 </div>
 
-<div class="ph4 pt2 mw9">
+<div class="ph4 mw9">
 <h2>Data</h2>
 <hr>
 <table id="entry-into-force" width="100%" cellspacing="0">
@@ -127,6 +133,15 @@ d3.csv("data/paris-agreement-entry-into-force.csv", function(data) {
     order: [[ 3, "desc" ]],
     scrollX: true
   })
+  var count = data.reduce(function(accumulator, item) {
+    if (item["Ratification-Acceptance-Approval"] === "") {
+      return accumulator
+    }
+    else {
+      return accumulator + 1
+    }
+  }, 0)
+  d3.select("#ratified").html(count)
 })
 d3.json("datapackage.json", function(metadata) {
   $('table#metadata').DataTable({
