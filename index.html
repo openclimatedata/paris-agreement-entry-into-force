@@ -22,6 +22,37 @@ hr {
   margin-top: 20px;
   margin-bottom: 5px;
 }
+#treemap {
+  position: relative;
+}
+.node {
+  box-sizing: border-box;
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid gray;
+  font-size: 9px;
+}
+.node-label {
+  padding: 4px;
+  line-height: 1.2;
+  white-space: pre;
+}
+.node-value {
+  color: rgba(0,0,0,0.8);
+  margin-top: 1px;
+}
+.ratified .percentage-value {
+  color: #ffeabc;
+}
+.signed .percentage-value {
+  color:  #b18456;
+}
+.signed {
+  background-color: #fdd0a2;
+}
+.ratified {
+  background-color: #fd8d3c;
+}
 </style>
 </head>
 
@@ -36,10 +67,12 @@ hr {
 <div class="fl w-100 w-50-ns pa2">
 <h2>Entry Into Force <span class="gray">4 November 2016</span></h2>
 <hr>
+<img src="assets/pa-ratification-count.png">
 </div>
-<div class="fl w-100 w-50-ns pa2">
+<div id="column" class="fl w-100 w-50-ns pa2">
 <h2><span id="ratified"></span> parties ratified</h2>
 <hr>
+<div id="treemap"></div>
 </div>
 </div>
 </div>
@@ -112,13 +145,7 @@ hr {
 </table>
 </div>
 
-
-
-<script src="https://d3js.org/d3-selection.v1.min.js"></script>
-<script src="https://d3js.org/d3-collection.v1.min.js"></script>
-<script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
-<script src="https://d3js.org/d3-dsv.v1.min.js"></script>
-<script src="https://d3js.org/d3-request.v1.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-2.2.4/dt-1.10.15/datatables.min.js"></script>
 <script>
 d3.csv("data/paris-agreement-entry-into-force.csv", function(data) {
@@ -147,6 +174,151 @@ d3.csv("data/paris-agreement-entry-into-force.csv", function(data) {
     }
   }, 0)
   d3.select("#ratified").html(count)
+
+
+  var width = parseInt(d3.select("#column").style("width")) - 15
+  var height = 420
+  var format = d3.format(".2f")
+
+  var scale = d3.scaleSqrt()
+    .range([9, 25])
+    .domain([0, 20.09])
+
+  var relativeArea = function(d) { return d.Percentage ? d.Percentage : 0.01 }
+  var root
+
+  var treemap = d3.treemap()
+  .size([width, height])
+  .padding(3)
+  .paddingOuter(0)
+  .tile(d3.treemapSquarify.ratio(1.4))
+  .round(true)
+
+  var styleArea = function(selection, value) {
+  selection
+    .style("left", function(d) { return d.x0 + "px" })
+    .style("top", function(d) { return d.y0 + "px" })
+    .style("width", function(d) { return d.x1 - d.x0 + "px" })
+    .style("height", function(d) { return d.y1 - d.y0 + "px" })
+    .style("font-size", function(d) {
+        return (value === "equal") ? "9px" : scale(d.data.Percentage) + "px"
+      })
+  }
+
+  var sort = function(a, b) {
+    if (!a.data.Percentage & a.data.Code == "EUU") {
+      a.data.Percentage = 12.1
+    }
+    if (!b.data.Percentage & b.data.Code == "EUU") {
+      b.data.Percentage = 12.1
+    }
+    if (a.data.Percentage === b.data.Percentage) {
+      if(a.data.Party < b.data.Party) return 1
+      if(a.data.Party > b.data.Party) return -1
+      return 0
+    }
+    else {
+      return b.data.Percentage - a.data.Percentage
+    }
+  }
+
+  var ratification = "Ratification-Acceptance-Approval"
+  var eu28 = [
+  'Belgium',
+  'Bulgaria',
+  'Denmark',
+  'Germany',
+  'Estonia',
+  'Finland',
+  'France',
+  'Greece',
+  'Ireland',
+  'Italy',
+  'Croatia',
+  'Latvia',
+  'Lithuania',
+  'Luxembourg',
+  'Malta',
+  'Netherlands',
+  'Austria',
+  'Poland',
+  'Portugal',
+  'Romania',
+  'Sweden',
+  'Slovakia',
+  'Slovenia',
+  'Spain',
+  'Czechia',
+  'Hungary',
+  'United Kingdom of Great Britain and Northern Ireland',
+  'Cyprus'
+]
+
+  data.forEach(function(d) {
+    if (d[ratification].length === 10) {
+      d["LastUpdate"] = new Date(d[ratification])
+    }
+    else if (d.Signature.length === 10) {
+      d["LastUpdate"] = new Date(d.Signature)
+    }
+    else {
+      d["LastUpdate"] = NaN
+    }
+    if (d.Percentage) {
+      d.Percentage = +d.Percentage
+    }
+    if (eu28.indexOf(d.Name) > -1) {
+      d.parentId = "EUU"
+    }
+    else {
+        d.parentId = "All Parties"
+    }
+    if (d["Code"] === "EUU") {
+      d.Percentage = null
+    }
+  })
+  data.push({"Code": "All Parties", "parentId": null})
+
+  root = d3.stratify()
+    .id(function(d) { return d["Code"] })
+    (data)
+
+  treemap(
+    root
+      .sum(relativeArea)
+      .sort(sort)
+  )
+
+  d3.select("div#treemap")
+    .style("width", (width) + "px")
+    .style("height", (height) + "px")
+
+    .selectAll(".node")
+    .data(root.leaves())
+    .enter().append("div")
+      .attr("class", function(d) {
+        if (d.data[ratification]) {
+          return "node ratified"
+        }
+        else if (d.data.Signature) {
+          return "node signed"
+        }
+        else {
+          return "node"
+        }
+      })
+      .attr("title", function(d) { return d.data.Name + "\n" + format(d.value) + "%" })
+      .attr("id", function(d) {return d.data.Code})
+      .call(styleArea)
+      .style("font-size", function(d) {
+        return scale(d.data.Percentage) + "px"
+      })
+    .append("div")
+      .attr("class", "node-label")
+    .append("div")
+      .attr("class", "node-value")
+      .html(function(d) { return d.data.Name + "<br><span class='percentage-value'>" + format(d.value) + "%</span>"})
+
 })
 d3.json("datapackage.json", function(metadata) {
   $('table#metadata').DataTable({
