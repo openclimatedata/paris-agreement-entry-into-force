@@ -120,7 +120,7 @@ hr {
     <th>Code</th>
     <th>Name</th>
     <th>Signature</th>
-    <th>Ratification, Acceptance, Approval</th>
+    <th>Ratification</th>
     <th>Kind</th>
     <th>Date of Effect</th>
     <th>Emissions</th>
@@ -155,7 +155,7 @@ d3.csv("data/paris-agreement-entry-into-force.csv", function(data) {
       { data: 'Code' },
       { data: 'Name' },
       { data: 'Signature' },
-      { data: 'Ratification-Acceptance-Approval' },
+      { data: 'Ratification' },
       { data: 'Kind' },
       { data: 'Date-Of-Effect' },
       { data: 'Emissions' },
@@ -166,7 +166,7 @@ d3.csv("data/paris-agreement-entry-into-force.csv", function(data) {
     scrollX: true
   })
   var count = data.reduce(function(accumulator, item) {
-    if (item["Ratification-Acceptance-Approval"] === "") {
+    if (item["Ratification"] === "") {
       return accumulator
     }
     else {
@@ -222,7 +222,7 @@ d3.csv("data/paris-agreement-entry-into-force.csv", function(data) {
     }
   }
 
-  var ratification = "Ratification-Acceptance-Approval"
+  var ratification = "Ratification"
   var eu28 = [
   'Belgium',
   'Bulgaria',
