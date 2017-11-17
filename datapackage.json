@@ -33,9 +33,9 @@
             "description": "Date of Signature"
           },
           {
-            "name": "Ratification-Acceptance-Approval",
+            "name": "Ratification",
             "type": "date",
-            "description": "Date of Ratification, Acceptance, or Approval"
+            "description": "Date of Ratification, Acceptance, Approval, or Accession"
           },
           {
             "name": "Kind",

@@ -46,23 +46,23 @@ signature = pd.DataFrame(signature.Signature)
 ratification = status.loc[status.Action != "Signature"]
 ratification = ratification.rename(columns={
     "Action": "Kind",
-    "Date of Notification/Deposit": "Ratification-Acceptance-Approval",
+    "Date of Notification/Deposit": "Ratification",
     "Date of Effect": "Date-Of-Effect"
     })
 
 status = ratification.join(signature, how="outer")
 status["Name"] = names
 
-status = status[["Name", "Signature", "Ratification-Acceptance-Approval",
+status = status[["Name", "Signature", "Ratification",
                  "Kind", "Date-Of-Effect"]]
 status.Signature = pd.to_datetime(status.Signature, dayfirst=True)
-status["Ratification-Acceptance-Approval"] = pd.to_datetime(
-    status["Ratification-Acceptance-Approval"], dayfirst=True)
+status["Ratification"] = pd.to_datetime(
+    status["Ratification"], dayfirst=True)
 status["Date-Of-Effect"] = pd.to_datetime(
     status["Date-Of-Effect"], dayfirst=True)
 
 # Add Entry Into Force date for first ratification parties.
-status.loc[status["Ratification-Acceptance-Approval"].notnull() &
+status.loc[status["Ratification"].notnull() &
            status["Date-Of-Effect"].isnull(),
            "Date-Of-Effect"] = datetime(2016, 11, 4)
 
@@ -145,7 +145,7 @@ status = status.append(missing)
 
 
 export = status.join(emissions.iloc[:, :3], how="outer")
-export = export[["Name", "Signature", "Ratification-Acceptance-Approval",
+export = export[["Name", "Signature", "Ratification",
                  "Kind", "Date-Of-Effect", "Emissions", "Percentage", "Year"]]
 export = export.sort_values(by="Name")
 
@@ -156,8 +156,8 @@ print("Percentage sum: {}".format(
     export.Percentage.sum() - export.loc['EUU'].Percentage))
 print("Count signatures: {}".format(export.Signature.count()))
 print("Count ratified: {}".format(
-    export["Ratification-Acceptance-Approval"].count()))
-ratified = export["Ratification-Acceptance-Approval"].notnull()
+    export["Ratification"].count()))
+ratified = export["Ratification"].notnull()
 percentage_sum = (export[ratified].Percentage.sum() -
                   export.loc["EUU"].Percentage)
 print("Sum of percentages with ratification w/o EU: {}".format(
