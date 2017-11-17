@@ -34,7 +34,8 @@ status.index.name = "Code"
 
 names = status.Participant.drop_duplicates()
 status = status[status.Action.isin(
-    ["Ratification", "Acceptance", "Approval", "Signature"])]
+    ["Ratification", "Acceptance", "Approval", "Accession",
+     "Signature"])]
 
 signature = status.loc[status.Action == "Signature"]
 signature = signature.rename(columns={
