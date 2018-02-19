@@ -131,9 +131,9 @@ status.Name = status.Name.replace(
 
 
 # Listed in the footnotes of the table for the purpose of Article 21.
-emissions.set_value("European Union", "Emissions", 4488404)
-emissions.set_value("European Union", "Percentage", 12.10)
-emissions.set_value("European Union", "Year", 2013)
+emissions.at["European Union", "Emissions"] = 4488404
+emissions.at["European Union", "Percentage"] = 12.10
+emissions.at["European Union", "Year"] = 2013
 
 emissions["Name"] = emissions.index
 emissions.index = [to_alpha_3(item, fuzzy=True) for item in emissions.Name]
