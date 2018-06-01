@@ -17,4 +17,4 @@ venv: scripts/requirements.txt
 clean:
 	rm -rf data/*.csv venv
 
-.PHONY: clean emissions-table treaty-collection emissions-table
+.PHONY: clean emissions-table
