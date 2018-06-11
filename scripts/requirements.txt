@@ -2,6 +2,6 @@ beautifulsoup4>=4.5
 html5lib==0.999999999
 pandas>=0.19
 lxml>=3.7
-countrynames
 unidecode
 goodtables>=1.5
+git+git://github.com/occrp/countrynames.git

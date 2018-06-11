@@ -2,7 +2,7 @@ import sys
 
 import pandas as pd
 
-from countrynames import to_alpha_3
+from countrynames import to_code_3
 from datetime import datetime
 from goodtables import validate
 from goodtables.cli import _print_report
@@ -29,7 +29,7 @@ status = tables[6]
 status.columns = status.loc[0]
 status = status.reindex(status.index.drop(0))
 
-status.index = status.Participant.apply(to_alpha_3, fuzzy=True)
+status.index = status.Participant.apply(to_code_3, fuzzy=True)
 status.index.name = "Code"
 
 names = status.Participant.drop_duplicates()
@@ -136,7 +136,7 @@ emissions.at["European Union", "Percentage"] = 12.10
 emissions.at["European Union", "Year"] = 2013
 
 emissions["Name"] = emissions.index
-emissions.index = [to_alpha_3(item, fuzzy=True) for item in emissions.Name]
+emissions.index = [to_code_3(item, fuzzy=True) for item in emissions.Name]
 emissions.index.name = "Code"
 
 # Names of parties not yet having signed.
