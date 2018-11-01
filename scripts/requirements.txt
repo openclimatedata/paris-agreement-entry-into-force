@@ -4,4 +4,4 @@ pandas>=0.19
 lxml>=3.7
 unidecode
 goodtables>=1.5
-git+git://github.com/occrp/countrynames.git
+countrynames
