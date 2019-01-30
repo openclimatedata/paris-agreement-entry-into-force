@@ -139,7 +139,7 @@ emissions.index.name = "Code"
 
 # Names of parties not yet having signed.
 missing = pd.DataFrame(emissions.Name[~emissions.index.isin(status.index)])
-status = status.append(missing)
+status = status.append(missing, sort=False)
 
 
 export = status.join(emissions.iloc[:, :3], how="outer")
