@@ -18,16 +18,14 @@ outfile = root / "data/paris-agreement-entry-into-force.csv"
 
 # Ratification and Signature status from the UN treaty collection.
 try:
-    tables = pd.read_html(treaty_collection_url, encoding="UTF-8")
+    tables = pd.read_html(treaty_collection_url, encoding="UTF-8", match="Zimbabwe")
 except ValueError as e:
     print(e)
     print("Maybe https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY"
           "&mtdsg_no=XXVII-7-d&chapter=27&clang=_en is down?")
     sys.exit()
 
-status = tables[6]
-status.columns = status.loc[0]
-status = status.reindex(status.index.drop(0))
+status = tables[0]
 
 status.index = status.Participant.apply(to_code_3, fuzzy=True)
 status.index.name = "Code"
