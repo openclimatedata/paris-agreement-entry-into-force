@@ -1,7 +1,7 @@
 name: Update data
 on: 
   schedule:
-    - cron:  '0 5 * * *'
+    - cron:  '0 15 * * *'
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -29,8 +29,8 @@ jobs:
           git config user.name "Update Bot"
           git checkout master
           git add data/paris-agreement-entry-into-force.csv
-          git commit -F message.txt 
+          git commit -F message.txt && \
+            git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master || true
           git log -n 2
-          git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master
           
         
