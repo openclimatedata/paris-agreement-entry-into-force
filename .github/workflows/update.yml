@@ -1,5 +1,5 @@
 name: Update data
-on: 
+on:
   schedule:
     - cron:  '0 15 * * *'
 jobs:
@@ -30,7 +30,8 @@ jobs:
           git checkout master
           git add data/paris-agreement-entry-into-force.csv
           git commit -F message.txt && \
-            git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master || true
-          git log -n 2
-          
-        
+            git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master && \
+            git log -n 2 || true
+
+
+
