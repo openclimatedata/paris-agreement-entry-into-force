@@ -1,9 +1,9 @@
-name: Daily Update
+name: Update data
 on:
   schedule:
-    - cron:  '0 7 * * *'
+    - cron:  '0 15 * * *'
 jobs:
-  update:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -20,7 +20,7 @@ jobs:
       - name: Update data
         run: python scripts/process.py
       - name: Diff files
-        run: csv-diff data/paris-agreement-entry-into-force-old.csv data/paris-agreement-entry-into-force.csv --key=Code >> message.txt
+        run: csv-diff data/paris-agreement-entry-into-force-old.csv data/paris-agreement-entry-into-force.csv --key=Code --singular=party --singular=parties >> message.txt
       - name: Commit back
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,8 +30,6 @@ jobs:
           git checkout master
           git add data/paris-agreement-entry-into-force.csv
           git commit -F message.txt && \
-            git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master && \
-            git log -n 2 || true
-
-
+            git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master || true
+          git log -n 2
 
