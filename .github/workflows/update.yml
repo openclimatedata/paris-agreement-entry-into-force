@@ -20,7 +20,7 @@ jobs:
       - name: Update data
         run: python scripts/process.py
       - name: Diff files
-        run: csv-diff data/paris-agreement-entry-into-force-old.csv data/paris-agreement-entry-into-force.csv --key=Code --singular=party --singular=parties >> message.txt
+        run: csv-diff data/paris-agreement-entry-into-force-old.csv data/paris-agreement-entry-into-force.csv --key=Code --singular=party --plural=parties >> message.txt
       - name: Commit back
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
