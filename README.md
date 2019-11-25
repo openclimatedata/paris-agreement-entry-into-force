@@ -19,6 +19,8 @@ file](http://unfccc.int/files/paris_agreement/application/pdf/10e.pdf) on the
 
 ## Preparation
 
+There are daily checks for updates, to update manually see below.
+
 The `Makefile` requires Python3 and will automatically install its dependencies
 into a Virtualenv when run with
 
