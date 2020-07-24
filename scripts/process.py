@@ -1,5 +1,6 @@
 import sys
 
+import numpy as np
 import pandas as pd
 
 from countrynames import to_code_3
@@ -74,7 +75,7 @@ def make_int(field):
         return int(field.replace(" ", ""))
     except ValueError:
         if field == "n/a" or "n/a ":
-            return pd.np.NaN
+            return np.NaN
         else:
             return field
 
