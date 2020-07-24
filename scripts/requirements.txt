@@ -4,4 +4,4 @@ pandas>=0.24
 lxml>=3.7
 unidecode
 goodtables>=1.5
-countrynames
+countrynames==1.6.0
