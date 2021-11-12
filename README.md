@@ -2,7 +2,7 @@ Combined dataset of signature, ratification, acceptance or approval status
 of the Paris Climate Agreement, and the emissions and shares for entry
 into force for the purposes of Article 21 of the agreement.
 
-[![Daily Update](https://github.com/openclimatedata/paris-agreement-entry-into-force/workflows/Daily%20Update/badge.svg)](https://github.com/openclimatedata/paris-agreement-entry-into-force/actions)
+[![Daily Update](https://github.com/openclimatedata/paris-agreement-entry-into-force/workflows/Update%20data/badge.svg)](https://github.com/openclimatedata/paris-agreement-entry-into-force/actions)
 
 ## Data
 
