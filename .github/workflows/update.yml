@@ -27,9 +27,9 @@ jobs:
         run: |
           git config user.email "<>"
           git config user.name "Update Bot"
-          git checkout master
+          git checkout main
           git add data/paris-agreement-entry-into-force.csv
           git commit -F message.txt && \
-            git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master || true
+            git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git main || true
           git log -n 2
 
